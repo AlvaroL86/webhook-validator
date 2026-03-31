@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: webhook-validator
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn webhook_validator:app
+    plan: free
+    envVars:
+      - key: WEBHOOK_VERIFY_TOKEN
+        value: fidelity_whatsapp_2024_secure
+      - key: PYTHON_VERSION
+        value: 3.11
+```
+
+4. Click **"Commit new file"**
+
+---
+
+### **PASO 5: Deploy en Render**
+
+1. Ve a: https://dashboard.render.com/
+2. Click **"+New"** → **"Web Service"**
+3. Selecciona **"Public Git repository"**
+4. Pega tu URL de GitHub repo: `https://github.com/TU_USUARIO/webhook-validator`
+5. Click **"Connect"**
+6. En la siguiente pantalla:
+   - **Name**: `webhook-validator`
+   - **Runtime**: `Python 3`
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `gunicorn webhook_validator:app`
+   - **Plan**: Free
+7. Scroll down → **"Advanced"** → **"Environment"**
+8. Agrega:
+   - **WEBHOOK_VERIFY_TOKEN**: `fidelity_whatsapp_2024_secure`
+9. Click **"Create Web Service"**
+
+---
+
+### **PASO 6: Espera 2-3 minutos**
+
+Render deployará automáticamente. Verás una URL como:
+```
+https://webhook-validator-abc123.onrender.com
